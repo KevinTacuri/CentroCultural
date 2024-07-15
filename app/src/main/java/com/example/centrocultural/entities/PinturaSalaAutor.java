@@ -1,4 +1,4 @@
-package com.example.centrocultural.entities;
+/*package com.example.centrocultural.entities;
 
 import androidx.room.ColumnInfo;
 
@@ -16,4 +16,4 @@ public class PinturaSalaAutor {
     public String enlace;
 }
 
-
+*/

@@ -1,4 +1,4 @@
-package com.example.centrocultural.entities;
+/*package com.example.centrocultural.entities;
 import androidx.room.Embedded;
 
 
@@ -9,5 +9,5 @@ public class SalaPintura {
     public String enlace;
 }
 
-
+*/
 

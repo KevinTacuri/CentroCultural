@@ -1,4 +1,4 @@
-package com.example.centrocultural.entities;
+/*package com.example.centrocultural.entities;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -17,3 +17,4 @@ public class Autor {
     public String getApellido() { return apellido; }
     public void setApellido(String apellido) { this.apellido = apellido; }
 }
+*/

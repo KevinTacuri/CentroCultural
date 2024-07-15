@@ -1,6 +1,8 @@
-package com.example.centrocultural.entities;
+/*package com.example.centrocultural.entities;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.ForeignKey;
 
@@ -14,18 +16,38 @@ import androidx.room.ForeignKey;
                         parentColumns = "id",
                         childColumns = "salaId",
                         onDelete = ForeignKey.CASCADE)
+        },
+        indices = {
+                @Index(value = "autorId"),
+                @Index(value = "salaId")
         })
 public class Pintura {
     @PrimaryKey(autoGenerate = true)
-    private int id;
-    private String titulo;
-    private int autorId;
-    private int salaId;
-    private String tecnica;
-    private String categoria;
-    private String descripcion;
-    private String anio;
-    private String enlace;
+    public int id;
+
+    @ColumnInfo(name = "titulo")
+    public String titulo;
+
+    @ColumnInfo(name = "autorId")
+    public int autorId;
+
+    @ColumnInfo(name = "salaId")
+    public int salaId;
+
+    @ColumnInfo(name = "tecnica")
+    public String tecnica;
+
+    @ColumnInfo(name = "categoria")
+    public String categoria;
+
+    @ColumnInfo(name = "descripcion")
+    public String descripcion;
+
+    @ColumnInfo(name = "anio")
+    public String anio;
+
+    @ColumnInfo(name = "enlace")
+    public String enlace;
 
     //Getters y Setters
     public int getId() { return id; }
@@ -46,4 +68,4 @@ public class Pintura {
     public void setAnio(String anio) { this.anio = anio; }
     public String getEnlace() { return enlace; }
     public void setEnlace(String enlace) { this.enlace = enlace; }
-}
+}*/

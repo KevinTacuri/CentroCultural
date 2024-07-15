@@ -22,11 +22,11 @@ import com.example.centrocultural.fragments.MapFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
-import com.example.centrocultural.AppDatabase;
+/*import com.example.centrocultural.AppDatabase;
 import com.example.centrocultural.DatabaseClient;
 import com.example.centrocultural.entities.Autor;
 import com.example.centrocultural.entities.Pintura;
-import com.example.centrocultural.entities.Sala;
+import com.example.centrocultural.entities.Sala;*/
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -74,9 +74,9 @@ public class HomeActivity extends AppCompatActivity {
         homeFragment = HomeFragment.newInstance("", "");
         loadFragment(homeFragment);
 
-        AppDatabase db = DatabaseClient.getInstance(getApplicationContext()).getDatabase();
+        //AppDatabase db = DatabaseClient.getInstance(getApplicationContext()).getDatabase();
 
-        new Thread(new Runnable() {
+        /*new Thread(new Runnable() {
             @Override
             public void run() {
                 Sala sala1 = new Sala();
@@ -102,7 +102,7 @@ public class HomeActivity extends AppCompatActivity {
                 db.autorDao().insert(autor1);
                 db.pinturaDao().insert(pintura1);
             }
-        }).start();
+        }).start();*/
     }
 
     private void loadFragment(Fragment fragment){

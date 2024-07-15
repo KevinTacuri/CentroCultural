@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment;
 
 import com.example.centrocultural.R;
 
-public class Sala1Fragment extends Fragment {
+public class SalaFragment extends Fragment {
 
-    public static Sala1Fragment newInstance() {
-        return new Sala1Fragment();
+    public static SalaFragment newInstance() {
+        return new SalaFragment();
     }
 
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
@@ -103,6 +103,7 @@ public class Sala1Fragment extends Fragment {
         topIcon.setOnClickListener(v -> loadPaintingDetail(
                 "ARCÁNGEL DE LA PUSKA DE PITUMARCA",
                 R.drawable.image1,
+
                 "Plateado en alto relieve policromado 120 x 90 cm.",
                 "Noé Mamani Ccajiavilca",
                 "2022"
@@ -119,15 +120,18 @@ public class Sala1Fragment extends Fragment {
         leftIcon.setOnClickListener(v -> loadPaintingDetail(
                 "ARCÁNGEL MIGUEL",
                 R.drawable.image3,
+
                 "Plateado en alto relieve 120 x 80 cm.",
                 "Noé Mamani Ccajiavilca",
                 "2022"
         ));
         // Clic listener para el ícono derecho
         rightIcon.setOnClickListener(v -> loadPaintingDetail(
-                "ARCÁNGEL MIGUEL",
+                "ARCÁNGEL RAFAEL",
                 R.drawable.image4,
-                "Plateado en alto relieve 120 x 80 cm.",
+                "San Rafael es considerado un ángel de la curación, tanto en el ámbito físico como espiritual. " +
+                          "Su festividad se celebra cada año el 24 de octubre. " +
+                          "Plateado en alto relieve 120 x 80 cm.",
                 "Noé Mamani Ccajiavilca",
                 "2022"
         ));

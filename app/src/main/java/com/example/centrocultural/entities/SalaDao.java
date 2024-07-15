@@ -1,4 +1,4 @@
-package com.example.centrocultural.entities;
+/*package com.example.centrocultural.entities;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -24,3 +24,4 @@ public interface SalaDao {
     @Query("SELECT * FROM sala WHERE id = :id")
     Sala getSalaById(int id);
 }
+*/

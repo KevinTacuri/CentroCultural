@@ -68,7 +68,7 @@ public class MapFragment extends Fragment {
         float unitWidth = mapView.getWidth() / 10f;
         float unitHeight = mapView.getHeight() / 10f;
 
-        sala1Button = createButton("Sala 1", unitWidth, 7 * unitHeight, 2 * unitWidth, 2 * unitHeight, Sala1Fragment.class);
+        sala1Button = createButton("Sala 1", unitWidth, 7 * unitHeight, 2 * unitWidth, 2 * unitHeight, SalaFragment.class);
 
         mapContainer.addView(sala1Button);
     }

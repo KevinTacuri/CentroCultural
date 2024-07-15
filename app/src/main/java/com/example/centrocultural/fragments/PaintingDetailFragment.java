@@ -1,13 +1,19 @@
 package com.example.centrocultural.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.centrocultural.AudioplayService;
 import com.example.centrocultural.R;
 
 public class PaintingDetailFragment extends Fragment {
@@ -47,6 +53,76 @@ public class PaintingDetailFragment extends Fragment {
             yearTextView.setText(getArguments().getString(ARG_YEAR));
         }
 
+        Button btnPlay = view.findViewById(R.id.btnPlay);
+        Button btnPause = view.findViewById(R.id.btnPause);
+        Button btnResume = view.findViewById(R.id.btnResume);
+        Button btnStop = view.findViewById(R.id.btnStop);
+
+        btnPlay.setOnClickListener(onClickListenerPlay());
+        btnPause.setOnClickListener(onClickListenerPause());
+        btnResume.setOnClickListener(onClickListenerResume());
+        btnStop.setOnClickListener(onClickListenerStop());
+
         return view;
+    }
+
+    private View.OnClickListener onClickListenerPlay() {
+        return v -> {
+            Intent audioplayServiceIntent = new Intent(getContext(), AudioplayService.class);
+            audioplayServiceIntent.putExtra(AudioplayService.FILENAME, "image1.mp3");
+            audioplayServiceIntent.putExtra(AudioplayService.COMMAND, AudioplayService.PLAY);
+            getContext().startService(audioplayServiceIntent);
+        };
+    }
+   /*private View.OnClickListener onClickListenerPlay() {
+        return v -> {
+            startAudioPlayService(AudioplayService.PLAY, "image1.mp3");
+        };
+    }*/
+
+    private View.OnClickListener onClickListenerPause() {
+        return v -> {
+            Intent audioplayServiceIntent = new Intent(getContext(), AudioplayService.class);
+            audioplayServiceIntent.putExtra(AudioplayService.COMMAND, AudioplayService.PAUSE);
+            getContext().startService(audioplayServiceIntent);
+        };
+    }
+    /*private View.OnClickListener onClickListenerPause() {
+        return v -> {
+            startAudioPlayService(AudioplayService.PAUSE, null);
+        };
+    }*/
+
+    private View.OnClickListener onClickListenerResume() {
+        return v -> {
+            Intent audioplayServiceIntent = new Intent(getContext(), AudioplayService.class);
+            audioplayServiceIntent.putExtra(AudioplayService.COMMAND, AudioplayService.RESUME);
+            getContext().startService(audioplayServiceIntent);
+        };
+    }
+    /*private View.OnClickListener onClickListenerResume() {
+        return v -> {
+            startAudioPlayService(AudioplayService.RESUME, null);
+        };
+    }*/
+    private View.OnClickListener onClickListenerStop() {
+        return v -> {
+            Intent audioplayServiceIntent = new Intent(getContext(), AudioplayService.class);
+            audioplayServiceIntent.putExtra(AudioplayService.COMMAND, AudioplayService.STOP);
+            getContext().startService(audioplayServiceIntent);
+        };
+    }
+    /*private View.OnClickListener onClickListenerStop() {
+        return v -> {
+            startAudioPlayService(AudioplayService.STOP, null);
+        };
+    }*/
+    private void startAudioPlayService(String command, String filename) {
+        Intent audioplayServiceIntent = new Intent(getContext(), AudioplayService.class);
+        audioplayServiceIntent.putExtra(AudioplayService.COMMAND, command);
+        if (filename != null) {
+            audioplayServiceIntent.putExtra(AudioplayService.FILENAME, filename);
+        }
+        getContext().startService(audioplayServiceIntent);
     }
 }

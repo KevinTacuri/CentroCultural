@@ -1,4 +1,4 @@
-package com.example.centrocultural.entities;
+/*package com.example.centrocultural.entities;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -20,3 +20,4 @@ public interface AutorDao {
     @Query("SELECT * FROM autor WHERE id = :id")
     Autor getAutorById(int id);
 }
+*/
