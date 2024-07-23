@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import com.example.centrocultural.fragments.CuadrosFragment;
 import com.example.centrocultural.fragments.HomeFragment;
 import com.example.centrocultural.fragments.MapFragment;
+import com.example.centrocultural.fragments.PaintingDetailFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -74,6 +75,13 @@ public class HomeActivity extends AppCompatActivity {
         homeFragment = HomeFragment.newInstance("", "");
         loadFragment(homeFragment);
 
+        if (getIntent() != null && getIntent().hasExtra("fragment")) {
+            String fragmentName = getIntent().getStringExtra("fragment");
+            if ("PaintingDetailFragment".equals(fragmentName)) {
+                String filename = getIntent().getStringExtra(AudioplayService.FILENAME);
+                showPaintingDetailFragment(filename);
+            }
+        }
         //AppDatabase db = DatabaseClient.getInstance(getApplicationContext()).getDatabase();
 
         /*new Thread(new Runnable() {
@@ -113,6 +121,15 @@ public class HomeActivity extends AppCompatActivity {
             fragmentTransaction.commit();
         }
     }
+    private void showPaintingDetailFragment(String filename) {
+        PaintingDetailFragment fragment = new PaintingDetailFragment();
+
+        Bundle args = new Bundle();
+        args.putString(AudioplayService.FILENAME, filename);
+        fragment.setArguments(args);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainerView, fragment)
+                .commit();
+    }
 }
-
-

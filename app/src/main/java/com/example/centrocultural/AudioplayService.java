@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
@@ -26,10 +27,14 @@ public class AudioplayService extends Service {
     public static final String CHANNEL_ID = "AudioPlayServiceChannel";
     public static final int NOTIFICATION_ID = 1;
 
+    private String currentFilename;
+
+    @Override
     public void onCreate() {
         super.onCreate();
         createNotification();
     }
+
     @Override
     public IBinder onBind(Intent intent) {
         throw new UnsupportedOperationException("Not yet implemented");
@@ -42,31 +47,31 @@ public class AudioplayService extends Service {
 
         Log.d("AudioplayService", "Command: " + command + ", Filename: " + filename);
 
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Reproduciendo audio")
-                .setContentText("Reproduciendo: " + filename)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .build();
-
-        startForeground(NOTIFICATION_ID, notification);
+        if (filename != null && !filename.isEmpty()) {
+            currentFilename = filename;
+        }
 
         if (command != null) {
-            if (command.equals(PLAY)) {
-                startForegroundService(filename);
-                Log.d("AudioplayService", "Play command received");
-                audioPlay(filename);
-            } else if (command.equals(PAUSE)) {
-                Log.d("AudioplayService", "Pause command received");
-                audioPause();
-            } else if (command.equals(RESUME)) {
-                Log.d("AudioplayService", "Resume command received");
-                audioResume();
-            } else if (command.equals(STOP)) {
-                Log.d("AudioplayService", "Stop command received");
-                audioStop();
-                stopForegroundService();
+            switch (command) {
+                case PLAY:
+                    audioPlay(currentFilename);
+                    updateNotification(currentFilename, true, false);
+                    break;
+                case PAUSE:
+                    audioPause();
+                    updateNotification(currentFilename, false, true);
+                    break;
+                case RESUME:
+                    audioResume();
+                    updateNotification(currentFilename, true, false);
+                    break;
+                case STOP:
+                    audioStop();
+                    updateNotification(currentFilename, false, false);
+                    break;
             }
         }
+
         return START_STICKY;
     }
 
@@ -116,13 +121,52 @@ public class AudioplayService extends Service {
     }
 
     private void startForegroundService(String filename) {
+        PendingIntent playPendingIntent = createPendingIntent(PLAY, 0);
+        PendingIntent pausePendingIntent = createPendingIntent(PAUSE, 1);
+        PendingIntent stopPendingIntent = createPendingIntent(STOP, 2);
+        PendingIntent contentPendingIntent = createContentPendingIntent();
+
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Audio Playback")
-                .setContentText("Playing audio in background" + filename)
+                .setContentTitle("Reproduciendo audio")
+                .setContentText("Reproduciendo: " + filename)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .addAction(R.drawable.ic_launcher_foreground, "Play", playPendingIntent)
+                .addAction(R.drawable.ic_launcher_foreground, "Pause", pausePendingIntent)
+                .addAction(R.drawable.ic_launcher_foreground, "Stop", stopPendingIntent)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText("Reproduciendo: " + filename))
+                .setContentIntent(contentPendingIntent)
                 .build();
+
         startForeground(NOTIFICATION_ID, notification);
         audioPlay(filename);
+    }
+
+    private void updateNotification(String filename, boolean isPlaying, boolean isPaused) {
+        PendingIntent playPendingIntent = createPendingIntent(PLAY, 0);
+        PendingIntent pausePendingIntent = createPendingIntent(PAUSE, 1);
+        PendingIntent resumePendingIntent = createPendingIntent(RESUME, 2);
+        PendingIntent stopPendingIntent = createPendingIntent(STOP, 3);
+        PendingIntent contentPendingIntent = createContentPendingIntent();
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("Reproduciendo audio")
+                .setContentText("Reproduciendo: " + filename)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .addAction(R.drawable.ic_launcher_foreground, "Play", playPendingIntent);
+
+        if (isPlaying) {
+            notificationBuilder.addAction(R.drawable.ic_launcher_foreground, "Pause", pausePendingIntent);
+        } else if (isPaused) {
+            notificationBuilder.addAction(R.drawable.ic_launcher_foreground, "Resume", resumePendingIntent);
+        }
+
+        notificationBuilder.addAction(R.drawable.ic_launcher_foreground, "Stop", stopPendingIntent)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText("Reproduciendo: " + filename))
+                .setContentIntent(contentPendingIntent);
+
+
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        manager.notify(NOTIFICATION_ID, notificationBuilder.build());
     }
 
     private void stopForegroundService() {
@@ -143,5 +187,25 @@ public class AudioplayService extends Service {
             }
         }
     }
-}
 
+    private PendingIntent createPendingIntent(String command, int requestCode) {
+        Intent intent = new Intent(this, AudioplayService.class);
+        intent.putExtra(COMMAND, command);
+        intent.putExtra(FILENAME, currentFilename);
+        int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            flags |= PendingIntent.FLAG_IMMUTABLE;
+        }
+        return PendingIntent.getService(this, requestCode, intent, flags);
+    }
+    private PendingIntent createContentPendingIntent() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("fragment", "PaintingDetailFragment");
+        intent.putExtra(FILENAME, currentFilename);
+        int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            flags |= PendingIntent.FLAG_IMMUTABLE;
+        }
+        return PendingIntent.getActivity(this, 4, intent, flags);
+    }
+}
