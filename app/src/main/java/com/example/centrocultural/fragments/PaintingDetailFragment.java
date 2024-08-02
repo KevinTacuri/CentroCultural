@@ -23,8 +23,10 @@ public class PaintingDetailFragment extends Fragment {
     private static final String ARG_DESCRIPTION = "description";
     private static final String ARG_ARTIST = "artist";
     private static final String ARG_YEAR = "year";
+    private static final String ARG_AUDIO_FILE_NAME = "audioFileName";
+    private String audioFileName;
 
-    public static PaintingDetailFragment newInstance(String name, int imageResId, String description, String artist, String year) {
+    public static PaintingDetailFragment newInstance(String name, int imageResId, String description, String artist, String year, String audioFileName) {
         PaintingDetailFragment fragment = new PaintingDetailFragment();
         Bundle args = new Bundle();
         args.putString(ARG_NAME, name);
@@ -32,6 +34,7 @@ public class PaintingDetailFragment extends Fragment {
         args.putString(ARG_DESCRIPTION, description);
         args.putString(ARG_ARTIST, artist);
         args.putString(ARG_YEAR, year);
+        args.putString(ARG_AUDIO_FILE_NAME, audioFileName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -45,12 +48,14 @@ public class PaintingDetailFragment extends Fragment {
         TextView descriptionTextView = view.findViewById(R.id.paintingDetailDescriptionTextView);
         TextView artistTextView = view.findViewById(R.id.paintingDetailAuthorTextView);
         TextView yearTextView = view.findViewById(R.id.paintingDetailYearTextView);
+
         if (getArguments() != null) {
             nameTextView.setText(getArguments().getString(ARG_NAME));
             imageView.setImageResource(getArguments().getInt(ARG_IMAGE_RES_ID));
             descriptionTextView.setText(getArguments().getString(ARG_DESCRIPTION));
             artistTextView.setText(getArguments().getString(ARG_ARTIST));
             yearTextView.setText(getArguments().getString(ARG_YEAR));
+            audioFileName = getArguments().getString(ARG_AUDIO_FILE_NAME);
         }
 
         Button btnPlay = view.findViewById(R.id.btnPlay);
@@ -69,7 +74,7 @@ public class PaintingDetailFragment extends Fragment {
     private View.OnClickListener onClickListenerPlay() {
         return v -> {
             Intent audioplayServiceIntent = new Intent(getContext(), AudioplayService.class);
-            audioplayServiceIntent.putExtra(AudioplayService.FILENAME, "image1.mp3");
+            audioplayServiceIntent.putExtra(AudioplayService.FILENAME, audioFileName);
             audioplayServiceIntent.putExtra(AudioplayService.COMMAND, AudioplayService.PLAY);
             getContext().startService(audioplayServiceIntent);
         };

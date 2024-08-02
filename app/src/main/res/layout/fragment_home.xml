@@ -1,35 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.HomeFragment">
+    android:padding="16dp">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <TextView
-        android:id="@+id/textView2"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="115dp"
-        android:text="Centro Cultural"
-        android:textSize="48sp"
-        android:gravity="center" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="650dp"
-        android:src="@drawable/centro_cultural" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#E3F2FD"
+            android:gravity="center"
+            android:paddingBottom="16dp"
+            android:text="Centro Cultural"
+            android:textColor="@color/primary_text"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+        <!-- Imagen Principal -->
+        <ImageView
+            android:id="@+id/main_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/centro_cultural"
+            android:scaleType="centerCrop"
+            android:contentDescription="" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="match_parent"
-        android:layout_height="650dp"
-        android:gravity="bottom"
-        android:text="Explora la galería de arte oculta dentro del Centro Cultural UNSA a través de esta app. Descubre pinturas, esculturas y más obras artísticas locales."
-        android:textSize="20sp" />
+        <!-- Layout para imágenes adicionales -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp">
 
+            <!-- Imagen Larga -->
+            <ImageView
+                android:id="@+id/long_image"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:src="@drawable/centro3"
+                android:scaleType="centerCrop"
+                android:contentDescription="" />
 
+            <!-- Layout para dos imágenes pequeñas -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:weightSum="2">
 
-</FrameLayout>
+                <ImageView
+                    android:id="@+id/small_image_1"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="4dp"
+                    android:src="@drawable/centro2"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="" />
+
+                <ImageView
+                    android:id="@+id/small_image_2"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="4dp"
+                    android:src="@drawable/centro1"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Descripción -->
+        <TextView
+            android:id="@+id/description_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:justificationMode="inter_word"
+            android:layout_marginTop="16dp"
+            android:text="Bienvenido a la aplicación del Centro Cultural de la UNSA. Sumérgete en una experiencia interactiva donde puedes explorar la galería de arte de nuestra universidad. A través de esta aplicación, puedes escuchar descripciones detalladas de cada obra, conectándote más profundamente con nuestro patrimonio cultural."
+            android:textSize="16sp"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+</ScrollView>

@@ -46,7 +46,8 @@ public class PaintingAdapter extends RecyclerView.Adapter<PaintingAdapter.Painti
                         painting.getImageResId(),
                         painting.getDescription(),
                         painting.getArtist(),
-                        painting.getYear()
+                        painting.getYear(),
+                        painting.getAudioFileName()
                 );
                 activity.getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragmentContainerView, fragment)
